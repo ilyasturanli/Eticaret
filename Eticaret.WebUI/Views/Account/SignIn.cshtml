@@ -1,0 +1,87 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Giriş";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/SignIn/SignInPage.css" asp-append-version="true" />
+</head>
+<body>
+    <main class="form-signin w-100 m-auto">
+        <form asp-action="SignIn">
+            <div class="text-center mb-4">
+                <div class="login-icon">
+                    <i class="fas fa-user-circle" style="font-size: 4rem; color: #667eea;"></i>
+                </div>
+            </div>
+
+            <h1 class="h3 mb-3 fw-normal">Üye Girişi</h1>
+
+            <!-- Başarı Mesajı -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="form-floating email-input">
+                <input asp-for="Email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                <label for="floatingInput">Email</label> <!--Bu label, id="floatingInput" olan input ile ilişkili.-->
+            </div>
+
+            <div class="form-floating password-input">
+                <input asp-for="Password" type="password" class="form-control" id="floatingPassword"placeholder="Şifre" required>
+                <label for="floatingPassword">Şifre</label><!--Bu label, id="floatingPassword" olan input ile ilişkili.-->
+                <button type="button" class="password-toggle">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+
+            @* <div class="form-check text-start my-3">
+                <input class="form-check-input" type="checkbox" id="checkDefault" name="RememberMe" value="true">
+                <label class="form-check-label" for="checkDefault">
+                    Beni Hatırla
+                </label>
+            </div> *@
+            <input type="hidden" asp-for="ReturnUrl" value="@Context.Request.Query["ReturnUrl"]" />
+            <button class="btn btn-primary w-100 py-2" type="submit">
+                <span class="btn-text">Giriş Yap</span>
+            </button>
+
+            <div class="forgot-password">
+                <a href="/Account/ForgotPassword" id="forgotPasswordLink">Şifremi Unuttum?</a>
+            </div>
+            
+            <div class="signup-section text-center">
+                <hr class="my-4">
+                <p class="text-muted mb-2">Hesabınız yok mu?</p>
+                <a href="/Account/SignUp" class="btn btn-outline-primary btn-sm px-4">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Hemen Üye Ol!
+                </a>
+            </div>
+
+            <div class="social-login">
+                <h6>veya</h6>
+                <div class="social-buttons">
+                    <a href="#" class="btn-social btn-google" title="Google ile Giriş" onclick="alert('Yakında eklenecektir...')">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="#" class="btn-social btn-facebook" title="Facebook ile Giriş" onclick="alert('Yakında eklenecektir...')">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="btn-social btn-twitter" title="Twitter ile Giriş" onclick="alert('Yakında eklenecektir...')">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <p class="mt-5 mb-3 text-body-secondary">© 2024-2025</p>
+        </form>
+    </main>
+    <script src="~/js/SignIn/SignInPage.js" asp-append-version="true"></script>
+</body>

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Category>
+@{
+    foreach(var anakategori in Model.Where(c => c.ParentId == 0))
+    {
+        <div class="dropdown">
+            @*// btn  dropdown-toggle *@
+            <a class="dropdown-toggle nav-link text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                @anakategori.Name
+            </a>
+            @if (Model.Where(c => c.ParentId == anakategori.Id) is not null && Model.Where(c => c.ParentId == anakategori.Id).Count() > 0)
+            {
+                <ul class="dropdown-menu">
+                    @foreach (var altkategori in Model.Where(c => c.ParentId == anakategori.Id))
+                    {
+                        <li><a class="dropdown-item" href="/Categories/Index/@altkategori.Id">@altkategori.Name</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+}

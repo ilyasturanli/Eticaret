@@ -1,0 +1,176 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Ürün Detayları";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-box me-2"></i>
+                        Ürün Detayları
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Sol Sütun: Ürün Bilgileri -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-tag me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Name)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <strong>@Html.DisplayFor(model => model.Name)</strong>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-barcode me-1"></i>
+                                            @Html.DisplayNameFor(model => model.ProductCode)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @Html.DisplayFor(model => model.ProductCode)
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-money-bill me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Price)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-success fs-6">₺@Html.DisplayFor(model => model.Price)</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-boxes me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Stock)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-info">@Html.DisplayFor(model => model.Stock) Adet</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-sort-numeric-up me-1"></i>
+                                            @Html.DisplayNameFor(model => model.OrderNo)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @Html.DisplayFor(model => model.OrderNo)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-folder me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Category)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-primary">@Html.DisplayFor(model => model.Category.Name)</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-copyright me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Brand)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-secondary">@Html.DisplayFor(model => model.Brand.Name)</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-toggle-on me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsActive)
+                                            {
+                                                <span class="badge bg-success">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Pasif</span>
+                                            }
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-home me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsHome)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsHome)
+                                            {
+                                                <span class="badge bg-warning">Anasayfada</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Anasayfada Değil</span>
+                                            }
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            <!-- Açıklama -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-align-left me-1"></i>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </h5>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sağ Sütun: Ürün Resmi -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-image me-1"></i>
+                                        Ürün Görseli
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    @if (!string.IsNullOrEmpty(Model.Image))
+                                    {
+                                        <img src="/Img/Products/@Model.Image" 
+                                             alt="@Model.Name" 
+                                             class="img-fluid rounded shadow-sm" 
+                                             style="max-height: 300px; max-width: 100%; object-fit: contain;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">
+                                            <i class="fas fa-image fa-3x mb-2"></i>
+                                            <p>Resim bulunamadı</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Listeye Dön
+                        </a>
+                        <div>
+                            <a class="btn btn-outline-success me-2" asp-action="Edit" asp-route-id="@Model?.Id">
+                                <i class="fas fa-edit me-1"></i>
+                                Düzenle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

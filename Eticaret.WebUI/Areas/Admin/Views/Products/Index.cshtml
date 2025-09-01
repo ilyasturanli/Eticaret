@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Ürünler";
+}
+@* <style>
+    td.fixed-height {max-width:180px;height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+</style> *@
+<style>
+    #datatablesSimple tbody td:last-child
+    {
+        
+        width: 50px;
+    }
+</style>
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">
+        <i class="fa-solid fa-plus"></i>Yeni Ekle</i>
+    </a>
+</p>
+<table class="table table-hover table-striped" id="datatablesSimple">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsHome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+             <td>
+                    @item.CreateDate.ToString()
+            </td> 
+            <td>
+                <img src="/Img/Products/@item.Image" alt="" height="60"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsHome)
+            </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNo)
+            </td>   
+            <td>
+                <div class="d-flex gap-2 justify-content-end">
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id" title="Düzenle"><i class="fa-solid fa-user-pen"></i></a>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id" title="Detaylar"><i class="fa-solid fa-eye"></i></a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id" title="Sil"><i class="fa-solid fa-trash"></i></a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>    
+</table>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    columns: [
+                        { select: 0, sortable: true },   // Id - sıralanabilir
+                        { select: 1, sortable: false },  // Name - sıralanamaz
+                        { select: 2, sortable: true },   // CreateDate - sıralanabilir
+                        { select: 3, sortable: false },  // Image - sıralanamaz
+                        { select: 4, sortable: true },   // Price - sıralanabilir
+                        { select: 5, sortable: false },  // ProductCode - sıralanamaz
+                        { select: 6, sortable: false },  // Stock - sıralanamaz
+                        { select: 7, sortable: false },  // IsActive - sıralanamaz
+                        { select: 8, sortable: false },  // IsHome - sıralanamaz
+                        { select: 9, sortable: false },  // Category - sıralanamaz
+                        { select: 10, sortable: false }, // Brand - sıralanamaz
+                        { select: 11, sortable: true },  // OrderNo - sıralanabilir
+                        { select: 12, sortable: false }  // Actions - sıralanamaz
+                    ]
+                });
+            }
+        });
+    </script>
+    <style>
+        /* Sıralama ok işaretlerini özelleştir */
+        .datatable-wrapper .datatable-top .datatable-sorter::before,
+        .datatable-wrapper .datatable-top .datatable-sorter::after {
+            content: '';
+            position: absolute;
+            right: 8px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter::before {
+            top: 8px;
+            border-bottom: 4px solid #6c757d;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter::after {
+            bottom: 8px;
+            border-top: 4px solid #6c757d;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter.asc::before {
+            border-bottom-color: #007bff;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter.desc::after {
+            border-top-color: #007bff;
+        }
+        
+        /* Sıralanamaz sütunlarda ok işaretlerini gizle */
+        .datatable-wrapper .datatable-top .datatable-sorter:not(.sortable)::before,
+        .datatable-wrapper .datatable-top .datatable-sorter:not(.sortable)::after {
+            display: none;
+        }
+        
+        /* Sıralanabilir sütunlarda hover efekti */
+        .datatable-wrapper .datatable-top .datatable-sorter:hover::before,
+        .datatable-wrapper .datatable-top .datatable-sorter:hover::after {
+            opacity: 0.7;
+        }
+    </style>
+}

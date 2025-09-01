@@ -1,0 +1,521 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Satın Al";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold text-center mb-5">
+                <i class="bi bi-cart3 text-primary me-3"></i>Sipariş Özeti
+            </h1>
+        </div>
+    </div>
+
+    @if (!Model.CartProducts.Any())
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-cart-x display-1 text-muted mb-4"></i>
+                        <h3 class="text-muted mb-3">Sepetiniz Boş</h3>
+                        <p class="text-muted mb-4">Sepetinizde henüz ürün bulunmamaktadır. Alışverişe başlamak için ürünlerimizi keşfedin.</p>
+                        <a href="/Products" class="btn btn-primary btn-lg">
+                            <i class="bi bi-arrow-left me-2"></i>Alışverişe Başla
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-bag me-2 text-primary"></i>Sepetinizdeki Ürünler (@Model.CartProducts.Count ürün)
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        @foreach (var item in Model.CartProducts)
+                        {
+                            <div class="cart-item border-bottom p-4">
+                                <div class="row align-items-center">
+                                    <!-- Product Image -->
+                                    <div class="col-md-2 col-3">
+                                        <a href="/Products/Details/@item.Product.Id" class="text-decoration-none">
+                                            <img src="/Img/Products/@item.Product.Image"
+                                                 alt="@item.Product.Name"
+                                                 class="img-fluid rounded shadow-sm"
+                                                 style="max-height: 80px; object-fit: cover;">
+                                        </a>
+                                    </div>
+
+                                    <!-- Product Info -->
+                                    <div class="col-md-4 col-6">
+                                        <a href="/Products/Details/@item.Product.Id" class="text-decoration-none">
+                                            <h6 class="fw-bold text-dark mb-1">@item.Product.Name</h6>
+                                        </a>
+                                        <small class="text-muted">Ürün Kodu: @item.Product.ProductCode</small>
+                                    </div>
+
+                                    <!-- Quantity Controls -->
+                                    <div class="col-md-3 col-6">
+                                        <div class="d-flex align-items-center">
+                                            <form asp-action="Update" asp-controller="Cart" method="post" class="d-flex align-items-center">
+                                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                                                <span class="mx-3 fw-bold">@item.Quantity</span>
+                                                <small class="text-muted">Adet</small>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="col-md-2 col-6">
+                                        <div class="text-end">
+                                            <div class="fw-bold text-primary fs-5">@item.Product.Price.ToString("c")</div>
+                                            <small class="text-muted">Birim Fiyat</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                    <div class="card-header bg-primary text-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-calculator me-2"></i>Sipariş Özeti
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Ürün Sayısı:</span>
+                            <span class="fw-bold">@Model.CartProducts.Count</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Toplam Miktar:</span>
+                            <span class="fw-bold">@Model.CartProducts.Sum(x => x.Quantity)</span>
+                        </div>
+                        <hr>
+                        @{
+                            // Model.TotalPrice zaten KDV dahil, KDV hariç tutarı hesapla
+                            decimal kdvHaricTutar = Model.TotalPrice / 1.20m; // KDV hariç tutar
+                            decimal kdvtutarı = Model.TotalPrice - kdvHaricTutar; // KDV tutarı
+                            decimal cargoücreti = Model.TotalPrice >= 10000 ? 0 : 450;
+                            decimal geneltoplam = Model.TotalPrice + cargoücreti; // KDV zaten dahil
+                        }
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Ara Toplam (KDV Hariç):</span>
+                            <span class="fw-bold">@kdvHaricTutar.ToString("c")</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Kargo Bedeli:</span>
+                            @if (cargoücreti == 0)
+                            {
+                                <span class="fw-bold text-success">
+                                    <i class="bi bi-check-circle me-1"></i>Ücretsiz
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="fw-bold">@cargoücreti.ToString("c")</span>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">KDV (%20):</span>
+                            <span class="fw-bold">@kdvtutarı.ToString("c")</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Ara Toplam (KDV Dahil):</span>
+                            <span class="fw-bold">@Model.TotalPrice.ToString("c")</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="fs-5 fw-bold">Genel Toplam:</span>
+                            <span class="fs-4 fw-bold text-primary">@geneltoplam.ToString("c")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Adres Bilgileri -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-geo-alt me-2 text-primary"></i>Adres Bilgileri
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if(Model.Addresses is null || !Model.Addresses.Any())
+                        {
+                            <!-- Adres Yok Tasarımı -->
+                            <div class="text-center py-5">
+                                <div class="mb-4">
+                                    <i class="bi bi-geo-alt-x display-1 text-muted"></i>
+                                </div>
+                                <h4 class="text-muted mb-3">Henüz Adres Eklenmemiş</h4>
+                                <p class="text-muted mb-4">
+                                    Siparişinizi tamamlamak için teslimat adresinizi eklemeniz gerekmektedir.
+                                </p>
+                                <div class="d-grid gap-2 d-md-block">
+                                    <a asp-action="Create" asp-controller="MyAddresses" class="btn btn-primary btn-lg me-md-2">
+                                        <i class="bi bi-plus-circle me-2"></i>
+                                        Yeni Adres Ekle
+                                    </a>
+                                    <a asp-action="Index" asp-controller="MyAddresses" class="btn btn-outline-secondary btn-lg">
+                                        <i class="bi bi-geo-alt me-2"></i>
+                                        Mevcut Adresleri Görüntüle
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Adres Seçimi -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="text-muted mb-0">Teslimat Adresinizi Seçin:</h6>
+                                        <a asp-action="Create" asp-controller="MyAddresses" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-plus-circle me-2"></i>
+                                            Yeni Adres Ekle
+                                        </a>
+                                    </div>
+                                    <div class="row g-3">
+                                        @foreach (var address in Model.Addresses)
+                                        {
+                                            <div class="col-md-6 col-lg-4">
+                                                <div class="card address-card h-100 border-2" 
+                                                     data-address-id="@address.AdressGuid"
+                                                     onclick="selectAddress(this, '@address.AdressGuid')">
+                                                    <div class="card-body p-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                                            <h6 class="card-title mb-0 fw-bold text-primary">
+                                                                @address.Title
+                                                            </h6>
+                                                            <div class="address-badges">
+                                                                @if (address.IsActive)
+                                                                {
+                                                                    <span class="badge bg-success badge-sm">
+                                                                        <i class="fas fa-check me-1"></i>Aktif
+                                                                    </span>
+                                                                }
+                                                                @if (address.IsBillingAdress)
+                                                                {
+                                                                    <span class="badge bg-primary badge-sm ms-1">
+                                                                        <i class="fas fa-credit-card me-1"></i>Fatura
+                                                                    </span>
+                                                                }
+                                                                @if (address.IsDeliveryAdress)
+                                                                {
+                                                                    <span class="badge bg-info badge-sm ms-1">
+                                                                        <i class="fas fa-truck me-1"></i>Teslimat
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="address-details">
+                                                            <p class="card-text mb-2">
+                                                                <i class="fas fa-city text-muted me-2"></i>
+                                                                <span class="fw-bold">@address.City</span>
+                                                            </p>
+                                                            <p class="card-text mb-2">
+                                                                <i class="fas fa-map text-muted me-2"></i>
+                                                                <span class="fw-bold">@address.District</span>
+                                                            </p>
+                                                            <p class="card-text mb-0">
+                                                                <i class="fas fa-home text-muted me-2"></i>
+                                                                <small class="text-muted">@address.OpenAdress</small>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="card-footer bg-light border-0 p-2">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <small class="text-muted">
+                                                                <i class="fas fa-user me-1"></i>@address.AppUser?.Name
+                                                            </small>
+                                                            <div class="address-actions">
+                                                                <a href="/MyAddresses/Edit/@address.AdressGuid"
+                                                                   class="btn btn-outline-primary btn-sm me-1"
+                                                                   onclick="event.stopPropagation()"
+                                                                   title="Düzenle">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                                <a href="/MyAddresses/Delete/@address.AdressGuid"
+                                                                   class="btn btn-outline-danger btn-sm"
+                                                                   onclick="event.stopPropagation()"
+                                                                   title="Sil">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    <!-- Seçilen Adres Bilgisi -->
+                                    <div id="selectedAddressInfo" class="mt-4" style="display: none;">
+                                        <div class="alert alert-success">
+                                            <h6 class="mb-2">
+                                                <i class="fas fa-check-circle me-2"></i>Seçilen Teslimat Adresi
+                                            </h6>
+                                            <div id="selectedAddressDetails"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hata Mesajları -->
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Hata:</strong> @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Ödeme Seçenekleri -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-shield-check me-2 text-primary"></i>Güvenli Ödeme
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="paymentForm" asp-action="Payment" asp-controller="Cart" method="get">
+                            <!-- Ödeme Yöntemi -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <div class="payment-method-card d-inline-block" style="min-width: 300px;">
+                                            <input class="form-check-input" type="radio" name="PaymentMethod" id="iyzico" value="Iyzico" checked>
+                                            <label class="form-check-label w-100" for="iyzico">
+                                                <div class="card h-100 border-2 payment-card">
+                                                    <div class="card-body text-center p-4">
+                                                        <i class="fas fa-shield-alt text-info mb-3" style="font-size: 3rem;"></i>
+                                                        <h5 class="mb-2">Iyzico ile Güvenli Ödeme</h5>
+                                                        <p class="text-muted mb-3">SSL sertifikalı güvenli ödeme sistemi ile siparişinizi tamamlayın</p>
+                                                        <div class="row text-center">
+                                                            <div class="col-4">
+                                                                <i class="fas fa-lock text-success mb-2"></i>
+                                                                <small class="d-block text-muted">Güvenli</small>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <i class="fas fa-credit-card text-primary mb-2"></i>
+                                                                <small class="d-block text-muted">Kart</small>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <i class="fas fa-mobile-alt text-info mb-2"></i>
+                                                                <small class="d-block text-muted">Mobil</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gizli input: seçilen adresler -->
+                            <input type="hidden" name="shippingAddressId" id="shippingAddressIdInput" value="@(Model.Addresses?.FirstOrDefault()?.AdressGuid)" />
+                            <input type="hidden" name="billingAddressId" id="billingAddressIdInput" value="@(Model.Addresses?.FirstOrDefault()?.AdressGuid)" />
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button  type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-shield-check me-2"></i>Güvenli Ödemeye Geç
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+    <style>
+        .address-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-color: #dee2e6;
+        }
+        
+        .address-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        
+        .address-card.selected {
+            border-color: #28a745;
+            background-color: #f8fff9;
+            box-shadow: 0 4px 12px rgba(40,167,69,0.2);
+        }
+        
+        .address-card.selected .card-title {
+            color: #28a745 !important;
+        }
+        
+        .badge-sm {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .address-actions .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .address-details p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .address-details i {
+            width: 16px;
+        }
+
+        /* Ödeme Yöntemi Kartları */
+        .payment-method-card {
+            cursor: pointer;
+        }
+
+        .payment-method-card input[type="radio"] {
+            display: none;
+        }
+
+        .payment-card {
+            transition: all 0.3s ease;
+            border-color: #dee2e6;
+            cursor: pointer;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+
+        .payment-method-card input[type="radio"]:checked + label .payment-card {
+            border-color: #007bff;
+            background-color: #f8f9ff;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        let selectedAddressId = null;
+        
+        function selectAddress(cardElement, addressId) {
+            // Önceki seçimi temizle
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Yeni seçimi işaretle
+            cardElement.classList.add('selected');
+            selectedAddressId = addressId;
+            
+            // Seçilen adres bilgisini göster
+            showSelectedAddressInfo(cardElement);
+            
+            // Seçilen adres ID'sini gizli input'a kaydet
+            updateSelectedAddressInput(addressId);
+        }
+        
+        function showSelectedAddressInfo(cardElement) {
+            const title = cardElement.querySelector('.card-title').textContent;
+            const city = cardElement.querySelector('.address-details p:nth-child(1) .fw-bold').textContent;
+            const district = cardElement.querySelector('.address-details p:nth-child(2) .fw-bold').textContent;
+            const openAddress = cardElement.querySelector('.address-details p:nth-child(3) small').textContent;
+            
+            const selectedAddressInfo = document.getElementById('selectedAddressInfo');
+            const selectedAddressDetails = document.getElementById('selectedAddressDetails');
+            
+            selectedAddressDetails.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Adres Başlığı:</strong> ${title}<br>
+                        <strong>Şehir:</strong> ${city}<br>
+                        <strong>İlçe:</strong> ${district}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Açık Adres:</strong><br>
+                        <small>${openAddress}</small>
+                    </div>
+                </div>
+            `;
+            
+            selectedAddressInfo.style.display = 'block';
+        }
+        
+        function updateSelectedAddressInput(addressId) {
+            // Gizli input'ları güncelle
+            let shippingInput = document.getElementById('shippingAddressIdInput');
+            let billingInput = document.getElementById('billingAddressIdInput');
+            if (shippingInput) {
+                shippingInput.value = addressId;
+            }
+            if (billingInput) {
+                billingInput.value = addressId;
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            // İlk adresi seç
+            const firstAddressCard = document.querySelector('.address-card');
+            if (firstAddressCard) {
+                const addressId = firstAddressCard.dataset.addressId;
+                selectAddress(firstAddressCard, addressId);
+            }
+
+            // Form gönderimi kontrolü
+            const paymentForm = document.getElementById('paymentForm');
+            if (paymentForm) {
+                paymentForm.addEventListener('submit', function(e) {
+                    // Adres seçimi kontrolü
+                    if (!selectedAddressId) {
+                        e.preventDefault();
+                        alert('Lütfen bir teslimat adresi seçin.');
+                        return;
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+

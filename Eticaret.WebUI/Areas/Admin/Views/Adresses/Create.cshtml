@@ -1,0 +1,232 @@
+﻿@model Adress
+
+@{
+    ViewData["Title"] = "Yeni Adres Ekle";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Yeni Adres Ekle
+                    </h3>
+                    <p class="mb-0 mt-1 opacity-75">Yeni adres bilgilerini girerek sisteme ekleyin</p>
+                </div>
+                
+                <form asp-action="Create">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Lütfen aşağıdaki hataları düzeltin
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Sol Sütun: Adres Bilgileri -->
+                            <div class="col-md-8">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Adres Bilgileri
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Title" class="form-label fw-bold">
+                                                <i class="fas fa-tag me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Title)
+                                            </label>
+                                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Adres başlığını girin..." />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label asp-for="City" class="form-label fw-bold">
+                                                        <i class="fas fa-city me-1"></i>
+                                                        @Html.DisplayNameFor(model => model.City)
+                                                    </label>
+                                                    <input asp-for="City" class="form-control" placeholder="Şehir adını girin..." />
+                                                    <span asp-validation-for="City" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label asp-for="District" class="form-label fw-bold">
+                                                        <i class="fas fa-map me-1"></i>
+                                                        @Html.DisplayNameFor(model => model.District)
+                                                    </label>
+                                                    <input asp-for="District" class="form-control" placeholder="İlçe adını girin..." />
+                                                    <span asp-validation-for="District" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="OpenAdress" class="form-label fw-bold">
+                                                <i class="fas fa-map-pin me-1"></i>
+                                                @Html.DisplayNameFor(model => model.OpenAdress)
+                                            </label>
+                                            <textarea asp-for="OpenAdress" class="form-control" rows="4" placeholder="Açık adresi detaylı olarak girin..."></textarea>
+                                            <span asp-validation-for="OpenAdress" class="text-danger"></span>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="BillingType" class="form-label fw-bold">
+                                                <i class="fas fa-file-invoice me-1"></i>
+                                                @Html.DisplayNameFor(model => model.BillingType)
+                                            </label>
+                                            <select asp-for="BillingType" class="form-control" id="billingTypeSelect">
+                                                <option value="">Fatura Tipi Seçiniz</option>
+                                                <option value="Bireysel">Bireysel</option>
+                                                <option value="Kurumsal">Kurumsal</option>
+                                            </select>
+                                            <span asp-validation-for="BillingType" class="text-danger"></span>
+                                        </div>
+                                        
+                                        <!-- Kurumsal bilgiler - sadece kurumsal seçildiğinde görünür -->
+                                        <div id="corporateFields" style="display: none;">
+                                            <div class="card border-primary">
+                                                <div class="card-header bg-primary text-white">
+                                                    <h6 class="card-title mb-0">
+                                                        <i class="fas fa-building me-2"></i>
+                                                        Kurumsal Bilgiler
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group mb-3">
+                                                        <label asp-for="CompanyName" class="form-label fw-bold">
+                                                            <i class="fas fa-building me-1"></i>
+                                                            @Html.DisplayNameFor(model => model.CompanyName)
+                                                        </label>
+                                                        <input asp-for="CompanyName" class="form-control" placeholder="Ticari ünvanı girin..." />
+                                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label asp-for="TaxNumber" class="form-label fw-bold">
+                                                                    <i class="fas fa-hashtag me-1"></i>
+                                                                    @Html.DisplayNameFor(model => model.TaxNumber)
+                                                                </label>
+                                                                <input asp-for="TaxNumber" class="form-control" placeholder="Vergi numarasını girin..." />
+                                                                <span asp-validation-for="TaxNumber" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label asp-for="TaxOffice" class="form-label fw-bold">
+                                                                    <i class="fas fa-university me-1"></i>
+                                                                    @Html.DisplayNameFor(model => model.TaxOffice)
+                                                                </label>
+                                                                <input asp-for="TaxOffice" class="form-control" placeholder="Vergi dairesini girin..." />
+                                                                <span asp-validation-for="TaxOffice" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sağ Sütun: Kullanıcı ve Ayarlar -->
+                            <div class="col-md-4">
+                                <div class="card border-0 bg-light mb-3">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-user me-2"></i>
+                                            Kullanıcı Seçimi
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group mb-3">
+                                            <label asp-for="AppUserId" class="form-label fw-bold">
+                                                <i class="fas fa-users me-1"></i>
+                                                @Html.DisplayNameFor(model => model.AppUserId)
+                                            </label>
+                                            <select asp-for="AppUserId" class="form-control" asp-items="ViewBag.AppUserId">
+                                                <option value="">Kullanıcı seçin...</option>
+                                            </select>
+                                            <span asp-validation-for="AppUserId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card border-0 bg-light">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-toggle-on me-2"></i>
+                                            Adres Ayarları
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" asp-for="IsActive" id="isActive" />
+                                            <label class="form-check-label fw-bold" for="isActive">
+                                                <i class="fas fa-check-circle me-1"></i>
+                                                @Html.DisplayNameFor(model => model.IsActive)
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" asp-for="IsBillingAdress" id="isBillingAdress" />
+                                            <label class="form-check-label fw-bold" for="isBillingAdress">
+                                                <i class="fas fa-credit-card me-1"></i>
+                                                @Html.DisplayNameFor(model => model.IsBillingAdress)
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" asp-for="IsDeliveryAdress" id="isDeliveryAdress" />
+                                            <label class="form-check-label fw-bold" for="isDeliveryAdress">
+                                                <i class="fas fa-truck me-1"></i>
+                                                @Html.DisplayNameFor(model => model.IsDeliveryAdress)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                Adresi Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            $('#billingTypeSelect').change(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue === 'Kurumsal') {
+                    $('#corporateFields').show();
+                } else {
+                    $('#corporateFields').hide();
+                }
+            });
+        });
+    </script>
+}
+

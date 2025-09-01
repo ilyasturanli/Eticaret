@@ -1,0 +1,45 @@
+﻿@using Eticaret.WebUI.ExtensionMethods
+@model Product
+@{
+    var favoriler = Context.Session.GetJson<List<Product>>("GetFavorites") ?? new List<Product>();
+    var isFavorite = favoriler.Any(p => p.Id == Model.Id);
+}
+
+<div class="card h-100 position-relative">
+    <!-- Favori Butonu -->
+    <div class="badge position-absolute favorite-badge favorite-btn" 
+         data-product-id="@Model.Id" 
+         data-is-favorite="@isFavorite.ToString().ToLower()"
+         style="cursor: pointer; @(isFavorite ? "background: #007bff !important; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);" : "background: #dc3545 !important; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);")">
+        <i class="fas fa-heart text-white" 
+           style="font-size: 1rem; transition: all 0.3s ease;"></i>
+    </div>
+
+    <!-- Product image-->
+    <a href="/Products/Details/@Model.Id">
+        <img class="card-img-top product-image" src="~/Img/Products/@Model.Image" alt="@Model.Name">
+    </a>
+
+    <!-- Product details-->
+    <div class="card-body">
+        <div class="text-center">
+            <h5 class="fw-bold product-title">@Model.Name</h5>
+            <div class="price-container mt-3 mb-3">
+                <span class="price">@Model.Price.ToString("c")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product actions-->
+    <div class="card-footer bg-transparent border-top">
+        <form action="/Cart/Add" method="post" class="cart-form" data-product-id="@Model.Id">
+            <input type="hidden" name="ProductId" value="@Model.Id" />
+            <div class="text-center">
+                <button class="btn btn-primary w-100" type="submit">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    Sepete Ekle
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

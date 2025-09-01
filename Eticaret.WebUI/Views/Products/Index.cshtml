@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Product>
+
+    @{
+    ViewData["Title"] = "Ürünler";
+    }
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold text-dark">Ürünlerimiz</h2>
+            <p class="text-center text-muted mb-5">En kaliteli ürünlerimizi keşfedin</p>
+        </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                <partial name="_ProductView" model="item" />
+            </div>
+        }
+    </div>
+</div>

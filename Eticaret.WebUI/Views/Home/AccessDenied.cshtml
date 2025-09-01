@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Erişim Hakkınız Yok!";
+    Layout = "~/Views/Shared/_AccessDeniedd.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/AccessDeniedCss/AccessDenied.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="decorative-elements"></div>
+
+    <div class="container">
+        <div class="error-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12,1L21,5V11C21,16.55 17.16,21.74 12,23C6.84,21.74 3,16.55 3,11V5L12,1M12,7C10.89,7 10,7.89 10,9V15C10,16.11 10.89,17 12,17C13.11,17 14,16.11 14,15V9C14,7.89 13.11,7 12,7M11,19V21H13V19H11Z" />
+            </svg>
+        </div>
+
+        <div class="error-code">403</div>
+        <h1 class="error-title">Erişim Reddedildi</h1>
+        <p class="error-message">
+            Üzgünüz, bu sayfaya erişim yetkiniz bulunmuyor. Bu içeriği görüntülemek için gerekli izinlere sahip değilsiniz.
+        </p>
+
+        <div class="action-buttons">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                </svg>
+                Ana Sayfa
+            </a>
+            <button onclick="history.back()" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                </svg>
+                Geri Dön
+            </button>
+        </div>
+
+        <div class="contact-info">
+            <p>Eğer bu sayfaya erişmeniz gerektiğini düşünüyorsanız,</p>
+            <p>lütfen <a href="mailto:destek@sirketiniz.com">sistem yöneticisi</a> ile iletişime geçin.</p>
+        </div>
+    </div>
+
+<script src="~/js/AccessDeniedJs/AccessDenied.js" asp-append-version="true"></script>
+</body>

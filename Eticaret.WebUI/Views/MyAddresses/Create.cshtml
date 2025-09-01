@@ -1,0 +1,252 @@
+﻿@model Adress
+
+@{
+    ViewData["Title"] = "Yeni Adres Ekle";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Yeni Adres Ekle
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <!-- Adres Başlığı -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Title" class="form-control" placeholder="Adres Başlığı" />
+                                    <label asp-for="Title" class="form-label"></label>
+                                    <span asp-validation-for="Title" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select asp-for="BillingType" class="form-select" id="billingTypeSelect">
+                                        <option value="">Fatura Tipi Seçiniz</option>
+                                        <option value="Bireysel">Bireysel</option>
+                                        <option value="Kurumsal">Kurumsal</option>
+                                    </select>
+                                    <label asp-for="BillingType" class="form-label"></label>
+                                    <span asp-validation-for="BillingType" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Şehir ve İlçe -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="City" class="form-control" placeholder="Şehir" />
+                                    <label asp-for="City" class="form-label"></label>
+                                    <span asp-validation-for="City" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="District" class="form-control" placeholder="İlçe" />
+                                    <label asp-for="District" class="form-label"></label>
+                                    <span asp-validation-for="District" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Açık Adres -->
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea asp-for="OpenAdress" class="form-control" placeholder="Açık Adres" style="height: 100px"></textarea>
+                                <label asp-for="OpenAdress" class="form-label"></label>
+                                <span asp-validation-for="OpenAdress" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Kurumsal Bilgiler -->
+                        <div id="corporateFields" style="display: none;">
+                            <div class="card border-info mb-3">
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-building me-2"></i>
+                                        Kurumsal Bilgiler
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input asp-for="CompanyName" class="form-control" placeholder="Ticari Ünvan" />
+                                                <label asp-for="CompanyName" class="form-label"></label>
+                                                <span asp-validation-for="CompanyName" class="text-danger small"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input asp-for="TaxNumber" class="form-control" placeholder="Vergi No" />
+                                                <label asp-for="TaxNumber" class="form-label"></label>
+                                                <span asp-validation-for="TaxNumber" class="text-danger small"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input asp-for="TaxOffice" class="form-control" placeholder="Vergi Dairesi" />
+                                                <label asp-for="TaxOffice" class="form-label"></label>
+                                                <span asp-validation-for="TaxOffice" class="text-danger small"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox'lar -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="IsActive" id="isActiveSwitch">
+                                    <label class="form-check-label" for="isActiveSwitch">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        @Html.DisplayNameFor(model => model.IsActive)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="IsBillingAdress" id="isBillingSwitch">
+                                    <label class="form-check-label" for="isBillingSwitch">
+                                        <i class="fas fa-file-invoice me-1"></i>
+                                        @Html.DisplayNameFor(model => model.IsBillingAdress)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="IsDeliveryAdress" id="isDeliverySwitch">
+                                    <label class="form-check-label" for="isDeliverySwitch">
+                                        <i class="fas fa-truck me-1"></i>
+                                        @Html.DisplayNameFor(model => model.IsDeliveryAdress)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Butonlar -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-1"></i>
+                                Geri Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>
+                                Adres Ekle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Fatura tipi değişikliği
+            $('#billingTypeSelect').change(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue === 'Kurumsal') {
+                    $('#corporateFields').slideDown(300);
+                } else {
+                    $('#corporateFields').slideUp(300);
+                }
+            });
+
+            // Form validation
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            // Checkbox animasyonları ve özel mantık
+            $('.form-check-input').change(function() {
+                if (this.checked) {
+                    $(this).closest('.form-check').addClass('text-success');
+                } else {
+                    $(this).closest('.form-check').removeClass('text-success');
+                }
+                
+                // Üç checkbox da işaretlendiğinde uyarı göster
+                checkAllThreeCheckboxes();
+            });
+            
+            function checkAllThreeCheckboxes() {
+                var isActive = $('#isActiveSwitch').is(':checked');
+                var isBilling = $('#isBillingSwitch').is(':checked');
+                var isDelivery = $('#isDeliverySwitch').is(':checked');
+                
+                if (isActive && isBilling && isDelivery) {
+                    // Eğer daha önce uyarı gösterilmemişse göster
+                    if (!$('#addressWarning').length) {
+                        var warningHtml = `
+                            <div id="addressWarning" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Bilgi:</strong> Bu adres hem aktif, hem fatura, hem de teslimat adresi olarak işaretlendi. 
+                                Eğer önceden bu üç özelliğe de sahip bir adresiniz varsa, o adresin işaretleri otomatik olarak kaldırılacaktır.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        `;
+                        $('.row.mb-4').after(warningHtml);
+                    }
+                } else {
+                    // Uyarıyı kaldır
+                    $('#addressWarning').remove();
+                }
+            }
+        });
+    </script>
+}
+
+<style>
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .form-check-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+</style>

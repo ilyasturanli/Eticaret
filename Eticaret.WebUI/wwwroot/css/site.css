@@ -1,0 +1,439 @@
+/* ===== GLOBAL STYLES ===== */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --accent-color: #28a745;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    --gray-color: #6c757d;
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-secondary {
+    color: var(--secondary-color) !important;
+}
+
+.text-accent {
+    color: var(--accent-color) !important;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* ===== FAVORITES SYSTEM ===== */
+.favorite-badge {
+    background: #dc3545 !important;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 20;
+    border: 2px solid white;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Favoriye eklenen ürün için mavi arka plan */
+.favorite-badge[data-is-favorite="true"] {
+    background: #007bff !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Favoriye eklenmemiş ürün için kırmızı arka plan */
+.favorite-badge[data-is-favorite="false"] {
+    background: #dc3545 !important;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.favorite-badge:hover {
+    background: #007bff !important;
+    transform: scale(1.15);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+}
+
+.favorite-badge:active {
+    transform: scale(0.95);
+}
+
+.favorite-badge i {
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: white;
+}
+
+.favorite-badge:hover i {
+    transform: scale(1.2);
+}
+
+/* Favori Badge Click Efektleri */
+.favorite-badge.clicked {
+    animation: heartBeat 0.6s ease;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+/* ===== FOOTER STYLES ===== */
+footer {
+    background: #343a40 !important;
+    color: white;
+    padding: 3rem 0 1rem 0;
+    margin-top: 4rem;
+}
+
+footer h5 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+footer .nav-link {
+    color: #d1d5db !important;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+footer .nav-link:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1);
+    padding-left: 0.75rem;
+}
+
+footer .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+footer .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+footer .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #28a745;
+}
+
+footer .btn-primary {
+    background: #28a745;
+    border: none;
+}
+
+footer .btn-primary:hover {
+    background: #218838;
+}
+
+/* Newsletter buton düzeltmesi */
+.newsletter-btn {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    min-width: fit-content;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.newsletter-btn i {
+    margin-right: 0.5rem;
+}
+
+/* Footer responsive düzeltmeleri */
+@media (max-width: 768px) {
+    footer .row > div {
+        margin-bottom: 2rem;
+    }
+    
+    .newsletter-btn {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+/* ===== SOCIAL MEDIA LINKS ===== */
+.social-links a {
+    transition: all 0.3s ease;
+    display: inline-block;
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+    color: white !important;
+}
+
+.social-links a:hover i.fa-facebook {
+    color: #1877f2 !important;
+}
+
+.social-links a:hover i.fa-instagram {
+    color: #e4405f !important;
+}
+
+.social-links a:hover i.fa-twitter {
+    color: #1da1f2 !important;
+}
+
+.social-links a:hover i.fa-youtube {
+    color: #ff0000 !important;
+}
+
+/* ===== FEATURE CARDS (Neden Bizi Tercih Etmelisiniz) ===== */
+.feature-card {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: #007bff;
+}
+
+.feature-icon {
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+}
+
+.feature-card h5 {
+    color: #343a40;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.feature-card p {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ===== BASIC CARD STYLES ===== */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-footer {
+    background: white;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 1.25rem;
+}
+
+.card-footer .btn {
+    width: 100%;
+}
+
+/* Product image stilleri */
+.product-image {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .product-image {
+    transform: scale(1.05);
+}
+
+/* Price container stilleri */
+.price-container {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    display: inline-block;
+}
+
+.price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #007bff;
+    display: block;
+    text-align: center;
+}
+
+/* ===== BASIC FORM STYLES ===== */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* ===== BASIC NAVBAR STYLES ===== */
+.navbar {
+    background: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: auto;
+}
+
+.navbar-nav .nav-link {
+    color: #343a40 !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff !important;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* ===== BASIC SLIDER STYLES ===== */
+#carouselExampleCaptions {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .feature-card {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .carousel-item img {
+        height: 300px;
+    }
+}
+
+.dropdown:hover .dropdown-menu{
+    display:block;
+}

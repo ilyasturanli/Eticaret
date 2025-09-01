@@ -1,0 +1,233 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = "Yeni Kullanıcı Ekle";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Yeni Kullanıcı Ekle
+                    </h3>
+                    <p class="mb-0 mt-1 opacity-75">Yeni kullanıcı bilgilerini girerek sisteme ekleyin</p>
+                </div>
+                
+                <form asp-action="Create">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Lütfen aşağıdaki hataları düzeltin
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Sol Sütun: Kişisel Bilgiler -->
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-user me-2"></i>
+                                            Kişisel Bilgiler
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Name" class="form-label fw-bold">
+                                                <i class="fas fa-user me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Name)
+                                            </label>
+                                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Adını girin..." />
+                                            <span asp-validation-for="Name" class="text-danger small"></span>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Surname" class="form-label fw-bold">
+                                                <i class="fas fa-user me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Surname)
+                                            </label>
+                                            <input asp-for="Surname" class="form-control form-control-lg" placeholder="Soyadını girin..." />
+                                            <span asp-validation-for="Surname" class="text-danger small"></span>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Email" class="form-label fw-bold">
+                                                <i class="fas fa-envelope me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Email)
+                                            </label>
+                                            <input asp-for="Email" class="form-control" placeholder="email@example.com" type="email" />
+                                            <span asp-validation-for="Email" class="text-danger small"></span>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Phone" class="form-label fw-bold">
+                                                <i class="fas fa-phone me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Phone)
+                                            </label>
+                                            <input asp-for="Phone" class="form-control" placeholder="0555 123 45 67" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sağ Sütun: Hesap Bilgileri -->
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-key me-2"></i>
+                                            Hesap Bilgileri
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group mb-3">
+                                            <label asp-for="UserName" class="form-label fw-bold">
+                                                <i class="fas fa-user-tag me-1"></i>
+                                                @Html.DisplayNameFor(model => model.UserName)
+                                            </label>
+                                            <input asp-for="UserName" class="form-control" placeholder="kullanici_adi" />
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Boş bırakılırsa email kullanılır
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label asp-for="Password" class="form-label fw-bold">
+                                                <i class="fas fa-lock me-1"></i>
+                                                @Html.DisplayNameFor(model => model.Password)
+                                            </label>
+                                            <input asp-for="Password" class="form-control" placeholder="Şifre girin..." type="password" />
+                                            <span asp-validation-for="Password" class="text-danger small"></span>
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                En az 6 karakter, 1 büyük harf, 1 küçük harf ve 1 rakam içermelidir
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label class="form-label fw-bold">
+                                                <i class="fas fa-lock me-1"></i>
+                                                Şifre Tekrar
+                                            </label>
+                                            <input id="PasswordConfirm" class="form-control" placeholder="Şifreyi tekrar girin..." type="password" />
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Şifre ile aynı olmalıdır
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Kullanıcı Ayarları -->
+                                <div class="card border-0 bg-light mt-3">
+                                    <div class="card-header bg-transparent">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <i class="fas fa-toggle-on me-2"></i>
+                                            Kullanıcı Ayarları
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" asp-for="IsActive" id="isActive" />
+                                            <label class="form-check-label fw-bold" for="isActive">
+                                                <i class="fas fa-check-circle me-1"></i>
+                                                @Html.DisplayNameFor(model => model.IsActive)
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" asp-for="IsAdmin" id="isAdmin" />
+                                            <label class="form-check-label fw-bold" for="isAdmin">
+                                                <i class="fas fa-shield-alt me-1"></i>
+                                                @Html.DisplayNameFor(model => model.IsAdmin)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                Kullanıcıyı Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Sayfa yüklendiğinde validation summary'yi kontrol et
+            checkValidationSummary();
+            
+            // Şifre doğrulama
+            $('#PasswordConfirm').on('input', function() {
+                var password = $('#Password').val();
+                var confirmPassword = $(this).val();
+                
+                if (password !== confirmPassword) {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.form-text').html('<i class="fas fa-exclamation-triangle me-1 text-danger"></i> Şifreler eşleşmiyor');
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.form-text').html('<i class="fas fa-check-circle me-1 text-success"></i> Şifreler eşleşiyor');
+                }
+            });
+            
+            // Form submit öncesi şifre kontrolü
+            $('form').on('submit', function(e) {
+                var password = $('#Password').val();
+                var confirmPassword = $('#PasswordConfirm').val();
+                
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    alert('Şifreler eşleşmiyor! Lütfen kontrol edin.');
+                    return false;
+                }
+                
+                // Validation summary'yi kontrol et
+                checkValidationSummary();
+            });
+            
+            // Input validation hatalarında summary'yi göster
+            $('input').on('invalid', function() {
+                $('.alert-danger').show();
+            });
+            
+            // Validation summary kontrol fonksiyonu
+            function checkValidationSummary() {
+                var hasErrors = $('.field-validation-error').length > 0 || 
+                               $('.input-validation-error').length > 0 || 
+                               $('.text-danger').length > 0;
+                
+                if (hasErrors) {
+                    $('.alert-danger').show();
+                } else {
+                    $('.alert-danger').hide();
+                }
+            }
+            
+            // Input değişikliklerinde validation summary'yi kontrol et
+            $('input').on('input', function() {
+                setTimeout(checkValidationSummary, 100);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,184 @@
+﻿@model Eticaret.Core.Entities.Adress
+
+@{
+    ViewData["Title"] = "Adres Sil";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        Adres Sil
+                    </h3>
+                    <p class="mb-0 mt-1 opacity-75">Bu adresi kalıcı olarak silmek istediğinizden emin misiniz?</p>
+                </div>
+                
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Dikkat!</strong> Bu işlem geri alınamaz. Adres ve tüm ilgili veriler kalıcı olarak silinecektir.
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Sol Sütun: Adres Bilgileri -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-tag me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Title)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <strong>@Html.DisplayFor(model => model.Title)</strong>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-city me-1"></i>
+                                            @Html.DisplayNameFor(model => model.City)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @Html.DisplayFor(model => model.City)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-map me-1"></i>
+                                            @Html.DisplayNameFor(model => model.District)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @Html.DisplayFor(model => model.District)
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-toggle-on me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsActive)
+                                            {
+                                                <span class="badge bg-success">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Pasif</span>
+                                            }
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            <!-- Açık Adres -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-map-pin me-1"></i>
+                                    @Html.DisplayNameFor(model => model.OpenAdress)
+                                </h5>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p class="card-text">@Html.DisplayFor(model => model.OpenAdress)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Adres Türleri -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-cogs me-1"></i>
+                                    Adres Türleri
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-credit-card fa-2x text-primary mb-2"></i>
+                                                <h6>Fatura Adresi</h6>
+                                                @if (Model.IsBillingAdress)
+                                                {
+                                                    <span class="badge bg-success">Evet</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Hayır</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-truck fa-2x text-info mb-2"></i>
+                                                <h6>Teslimat Adresi</h6>
+                                                @if (Model.IsDeliveryAdress)
+                                                {
+                                                    <span class="badge bg-success">Evet</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Hayır</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sağ Sütun: Kullanıcı Bilgileri -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-user me-1"></i>
+                                        Kullanıcı Bilgileri
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    @if (Model.AppUser != null)
+                                    {
+                                        <div class="mb-3">
+                                            <i class="fas fa-user-circle fa-3x text-primary mb-2"></i>
+                                            <h6>@Model.AppUser.Email</h6>
+                                        </div>
+                                        <div class="text-start">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Bu adres @Model.AppUser.Email kullanıcısına ait
+                                            </small>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">
+                                            <i class="fas fa-user-slash fa-3x mb-2"></i>
+                                            <p>Kullanıcı bilgisi bulunamadı</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-light">
+                    <form asp-action="Delete" class="d-flex justify-content-between align-items-center">
+                        <input type="hidden" asp-for="Id" />
+                        <a asp-action="Index" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Listeye Dön
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fas fa-trash-alt me-2"></i>
+                            Adresi Kalıcı Olarak Sil
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

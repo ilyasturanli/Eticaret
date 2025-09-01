@@ -1,0 +1,134 @@
+﻿@using Eticaret.WebUI.ExtensionMethods
+@using Eticaret.Service.Concrete
+@{
+    var favoriler = Context.Session.GetJson<List<Product>>("GetFavorites") ?? new List<Product>();
+    var favoriteCount = favoriler.Count;
+    
+    // Sepet verilerini al
+    var cart = Context.Session.GetJson<CartService>("Cart") ?? new CartService();
+    var cartItemCount = cart.CartLines.Sum(x => x.Quantity);
+}
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid px-4">
+            <!-- Logo -->
+            <a class="navbar-brand me-4" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="/sitelogo/beyazlogo.jpeg" height="40" width="120" alt="CNR-TİCARET Logo">
+            </a>
+
+            <!-- Mobil için toggle butonu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menü -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <!-- Sol Menü -->
+                <ul class="navbar-nav me-4 mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item me-3">
+                        <a class="nav-link text-dark fw-medium" asp-controller="Home" asp-action="Index">
+                            Anasayfa
+                        </a>
+                    </li>
+                    @await Component.InvokeAsync("Categories")
+                    <li class="nav-item me-3">
+                        <a class="nav-link text-dark fw-medium d-flex align-items-center" asp-controller="Home" asp-action="ContactUs">
+                            <i class="fas fa-phone me-1"></i>
+                            <span>İletişim</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Arama Kutusu - Merkez -->
+                <div class="flex-grow-1 mx-4 d-flex justify-content-center">
+                    <form action="/Products" class="d-flex w-100" role="search" style="max-width: 500px;">
+                        <div class="input-group">
+                            <input name="arama" type="search" class="form-control" 
+                                   placeholder="Araba parçası, marka veya model ara..." 
+                                   aria-label="Search">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sağ Menü - Kullanıcı İşlemleri -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <!-- Favorilerim Butonu -->
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-dark position-relative d-flex align-items-center justify-content-center" 
+                           asp-controller="Favorites" asp-action="Index" title="Favorilerim">
+                            <i class="fas fa-heart fs-5"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill favorite-count">
+                                @favoriteCount
+                            </span>
+                        </a>
+                    </li>
+
+                    <!-- Sepetim Butonu -->
+                    <li class="nav-item me-3">
+                        <a class="nav-link text-dark position-relative d-flex align-items-center justify-content-center" 
+                           asp-controller="Cart" asp-action="Index" title="Sepetim">
+                            <i class="fas fa-shopping-cart fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-count">
+                                    @cartItemCount
+                                </span>
+                        </a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Hesabım Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold text-dark d-flex align-items-center" href="#" id="accountDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-2 fs-5"></i>
+                                <span>Hesabım</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 border-0" aria-labelledby="accountDropdown">
+                                <li>
+                                    <a class="dropdown-item py-2" asp-controller="Account" asp-action="Index">
+                                        <i class="fas fa-id-card me-2 text-primary"></i> Profilim
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" asp-controller="MyAddresses" asp-action="Index">
+                                        <i class="fa-solid fa-address-card"></i> Kayıtlı Adresler
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" asp-controller="Account" asp-action="MyOrders">
+                                        <i class="fas fa-box me-2 text-success"></i> Siparişlerim
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider my-2"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-danger" asp-controller="Account" asp-action="Logout">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <!-- Giriş / Kayıt Ol butonları -->
+                        <li class="nav-item me-2">
+                            <a href="/Account/SignIn" class="nav-link text-dark d-flex align-items-center justify-content-center" title="Giriş Yap">
+                                <i class="fas fa-sign-in-alt fs-5"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Account/SignUp" class="nav-link text-dark d-flex align-items-center justify-content-center" title="Kayıt Ol">
+                                <i class="fas fa-user-plus fs-5"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

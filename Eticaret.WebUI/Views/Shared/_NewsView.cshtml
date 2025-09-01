@@ -1,0 +1,24 @@
+﻿@model News
+
+<div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="campaign-card h-100">
+        <a href="/News/Details/@Model.Id" class="campaign-link">
+            <div class="campaign-image-container">
+                <img src="/Img/News/@Model.Image" alt="@Model.Name" class="campaign-image" style="width: 200%; height: 200%; object-fit: cover;" />
+                <div class="campaign-overlay">
+                    <div class="campaign-badge">
+                        <i class="fas fa-tag"></i>
+                        <span>Kampanya</span>
+                    </div>
+                </div>
+            </div>
+            <div class="campaign-content">
+                <h6 class="campaign-title">@Model.Name</h6>
+                <p class="campaign-description">@Model.Description</p>
+                <div class="campaign-action">
+                    <span class="btn btn-sm btn-outline-primary">Detayları Gör</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

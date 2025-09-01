@@ -1,0 +1,304 @@
+﻿@model Eticaret.Core.Entities.Adress
+
+@{
+    ViewData["Title"] = "Adres Detayları";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Adres Detayları
+                    </h3>
+                    <p class="mb-0 mt-1 opacity-75">@Model.Title adresinin detaylı bilgileri</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Sol Sütun: Adres Bilgileri -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-tag me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Title)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <strong class="fs-5">@Html.DisplayFor(model => model.Title)</strong>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-city me-1"></i>
+                                            @Html.DisplayNameFor(model => model.City)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-primary fs-6">@Html.DisplayFor(model => model.City)</span>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-map me-1"></i>
+                                            @Html.DisplayNameFor(model => model.District)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-secondary fs-6">@Html.DisplayFor(model => model.District)</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-toggle-on me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsActive)
+                                            {
+                                                <span class="badge bg-success">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Pasif</span>
+                                            }
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            <!-- Fatura Tipi -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-file-invoice me-1"></i>
+                                    @Html.DisplayNameFor(model => model.BillingType)
+                                </h5>
+                                <div class="card">
+                                    <div class="card-body">
+                                        @if (!string.IsNullOrEmpty(Model.BillingType))
+                                        {
+                                            <span class="badge bg-info fs-6">@Html.DisplayFor(model => model.BillingType)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Fatura tipi belirtilmemiş</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Kurumsal Bilgiler - sadece kurumsal seçildiğinde göster -->
+                            @if (Model.BillingType == "Kurumsal")
+                            {
+                                <div class="mt-4">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-building me-1"></i>
+                                        Kurumsal Bilgiler
+                                    </h5>
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <dl class="row">
+                                                        <dt class="col-sm-5">
+                                                            <i class="fas fa-building me-1"></i>
+                                                            @Html.DisplayNameFor(model => model.CompanyName)
+                                                        </dt>
+                                                        <dd class="col-sm-7">
+                                                            <strong>@Html.DisplayFor(model => model.CompanyName)</strong>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <dl class="row">
+                                                        <dt class="col-sm-5">
+                                                            <i class="fas fa-hashtag me-1"></i>
+                                                            @Html.DisplayNameFor(model => model.TaxNumber)
+                                                        </dt>
+                                                        <dd class="col-sm-7">
+                                                            <span class="badge bg-secondary">@Html.DisplayFor(model => model.TaxNumber)</span>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-12">
+                                                    <dl class="row">
+                                                        <dt class="col-sm-3">
+                                                            <i class="fas fa-university me-1"></i>
+                                                            @Html.DisplayNameFor(model => model.TaxOffice)
+                                                        </dt>
+                                                        <dd class="col-sm-9">
+                                                            <span class="badge bg-info">@Html.DisplayFor(model => model.TaxOffice)</span>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            
+                            <!-- Açık Adres -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-map-pin me-1"></i>
+                                    @Html.DisplayNameFor(model => model.OpenAdress)
+                                </h5>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p class="card-text">@Html.DisplayFor(model => model.OpenAdress)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Adres Türleri -->
+                            <div class="mt-4">
+                                <h5 class="card-title">
+                                    <i class="fas fa-cogs me-1"></i>
+                                    Adres Türleri
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-credit-card fa-2x text-primary mb-2"></i>
+                                                <h6>Fatura Adresi</h6>
+                                                @if (Model.IsBillingAdress)
+                                                {
+                                                    <span class="badge bg-success">Evet</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Hayır</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-truck fa-2x text-info mb-2"></i>
+                                                <h6>Teslimat Adresi</h6>
+                                                @if (Model.IsDeliveryAdress)
+                                                {
+                                                    <span class="badge bg-success">Evet</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Hayır</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sağ Sütun: Kullanıcı Bilgileri -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-user me-1"></i>
+                                        Kullanıcı Bilgileri
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    @if (Model.AppUser != null)
+                                    {
+                                        <div class="mb-3">
+                                            <i class="fas fa-user-circle fa-3x text-primary mb-2"></i>
+                                            <h6>@Model.AppUser.Email</h6>
+                                        </div>
+                                        <div class="text-start">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Bu adres @Model.AppUser.Email kullanıcısına ait
+                                            </small>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">
+                                            <i class="fas fa-user-slash fa-3x mb-2"></i>
+                                            <p>Kullanıcı bilgisi bulunamadı</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            
+                            <!-- Adres Durumu Özeti -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Adres Durumu
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Durum:</span>
+                                            @if (Model.IsActive)
+                                            {
+                                                <span class="badge bg-success">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Pasif</span>
+                                            }
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Fatura:</span>
+                                            @if (Model.IsBillingAdress)
+                                            {
+                                                <span class="badge bg-success">Evet</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Hayır</span>
+                                            }
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Teslimat:</span>
+                                            @if (Model.IsDeliveryAdress)
+                                            {
+                                                <span class="badge bg-success">Evet</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Hayır</span>
+                                            }
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(Model.BillingType))
+                                        {
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span>Fatura Tipi:</span>
+                                                <span class="badge bg-info">@Model.BillingType</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Listeye Dön
+                        </a>
+                        <div>
+                            <a class="btn btn-warning btn-lg" asp-action="Edit" asp-route-id="@Model?.Id">
+                                <i class="fas fa-edit me-2"></i>
+                                Düzenle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@model Eticaret.Core.Entities.Contact
+
+@{
+    ViewData["Title"] = "İletişim Detayları";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-envelope me-2"></i>
+                        İletişim Formu Detayları
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-user me-1"></i>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
+                                
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-user me-1"></i>
+                                    @Html.DisplayNameFor(model => model.Surname)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Surname)
+                                </dd>
+                                
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Email)
+                                </dd>
+                                
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-phone me-1"></i>
+                                    @Html.DisplayNameFor(model => model.Phone)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Phone)
+                                </dd>
+                                
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    @Html.DisplayNameFor(model => model.CreateDate)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.CreateDate.ToString("dd.MM.yyyy HH:mm")
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-comment me-1"></i>
+                                        @Html.DisplayNameFor(model => model.Message)
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">@Html.DisplayFor(model => model.Message)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Listeye Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

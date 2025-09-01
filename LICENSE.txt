@@ -1,0 +1,12 @@
+All Rights Reserved
+
+Copyright (c) 2025 Ilyas Turanlý
+
+This project and its source code are the intellectual property of the author.
+The code is published on GitHub for viewing purposes only.
+
+You are NOT allowed to:
+- Copy, modify, or redistribute the code.
+- Use any part of the code in commercial or personal projects without explicit written permission from the author.
+
+Unauthorized use of this code is strictly prohibited.

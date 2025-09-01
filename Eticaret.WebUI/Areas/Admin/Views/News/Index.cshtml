@@ -1,0 +1,55 @@
+﻿@model IEnumerable<News>
+
+@{
+    ViewData["Title"] = "Kampanya ve Duyurular";
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">
+        <i class="fa-solid fa-plus"></i>Yeni Ekle</i>
+    </a>
+</p>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @item.CreateDate.ToString()
+            </td>
+            <td>
+                <img src="/Img/News/@item.Image" alt="" height="60"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                    <div class="text-end">
+                        <a class="btn btn-primary me-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-user-pen"></i></a>
+                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id" title="Detaylar"><i class="fa-solid fa-eye"></i></a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

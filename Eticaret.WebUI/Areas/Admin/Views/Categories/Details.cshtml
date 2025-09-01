@@ -1,0 +1,162 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Kategori Detayları";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-folder me-2"></i>
+                        Kategori Detayları
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Sol Sütun: Kategori Bilgileri -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-tag me-1"></i>
+                                            @Html.DisplayNameFor(model => model.Name)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <strong class="fs-5">@Html.DisplayFor(model => model.Name)</strong>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-sort-numeric-up me-1"></i>
+                                            @Html.DisplayNameFor(model => model.OrderNo)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-info fs-6">@Html.DisplayFor(model => model.OrderNo)</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-sitemap me-1"></i>
+                                            @Html.DisplayNameFor(model => model.ParentId)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.ParentId == 0)
+                                            {
+                                                <span class="badge bg-primary">Ana Kategori</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Alt Kategori</span>
+                                            }
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-toggle-on me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsActive)
+                                            {
+                                                <span class="badge bg-success">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Pasif</span>
+                                            }
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-bars me-1"></i>
+                                            @Html.DisplayNameFor(model => model.IsTopMenu)
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            @if (Model.IsTopMenu)
+                                            {
+                                                <span class="badge bg-warning">Üst Menüde</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Üst Menüde Değil</span>
+                                            }
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            Kayıt Tarihi
+                                        </dt>
+                                        <dd class="col-sm-8">
+                                            <small class="text-muted">@Model.CreateDate.ToString("dd.MM.yyyy HH:mm")</small>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            <!-- Açıklama -->
+                            @if (!string.IsNullOrEmpty(Model.Description))
+                            {
+                                <div class="mt-4">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-align-left me-1"></i>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        
+                        <!-- Sağ Sütun: Kategori Resmi -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <i class="fas fa-image me-1"></i>
+                                        Kategori Görseli
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    @if (!string.IsNullOrEmpty(Model.Image))
+                                    {
+                                        <img src="/Img/Categories/@Model.Image" 
+                                             alt="@Model.Name" 
+                                             class="img-fluid rounded shadow-sm" 
+                                             style="max-height: 250px; max-width: 100%; object-fit: contain;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">
+                                            <i class="fas fa-image fa-3x mb-2"></i>
+                                            <p>Resim bulunamadı</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Listeye Dön
+                        </a>
+                        <div>
+                            <a class="btn btn-outline-success me-2" asp-action="Edit" asp-route-id="@Model?.Id">
+                                <i class="fas fa-edit me-1"></i>
+                                Düzenle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

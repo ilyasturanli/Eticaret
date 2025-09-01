@@ -1,0 +1,94 @@
+﻿
+@model HomePageViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+<partial name="_Slider" model="Model.Sliders" />
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold text-dark">Kaliteli Araba Parçaları</h2>
+            <p class="text-center text-muted mb-5">En uygun fiyatlarla, en kaliteli araba parçalarını sizlere sunuyoruz. Güvenilir markalar, hızlı teslimat!</p>
+        </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+        @foreach(var item in Model.Products)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                <partial name="_ProductView" model="item" />
+            </div>
+        }
+    </div>
+</div>
+@if(Model.News.Count > 0)
+{
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mb-4 fw-bold text-dark">Özel Kampanyalar</h2>
+                <p class="text-center text-muted mb-5">Fırsatları kaçırmayın! Sınırlı süre için özel indirimler ve kampanyalar</p>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+            @foreach (var item in Model.News)
+            {
+                @if (item.IsActive)
+                {
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <partial name="_NewsView" model="item" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+
+<!-- Özellikler Bölümü -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold text-dark">Neden Bizi Tercih Etmelisiniz?</h2>
+            <p class="text-center text-muted mb-5">Müşteri memnuniyeti odaklı hizmet anlayışımızla fark yaratıyoruz</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-6 col-12 text-center">
+            <div class="feature-card p-4 h-100">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-truck fa-3x text-primary"></i>
+                </div>
+                <h5 class="fw-bold">Hızlı Teslimat</h5>
+                <p class="text-muted">Siparişleriniz en kısa sürede kapınızda</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 text-center">
+            <div class="feature-card p-4 h-100">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-shield-alt fa-3x text-secondary"></i>
+                </div>
+                <h5 class="fw-bold">Kalite Garantisi</h5>
+                <p class="text-muted">Tüm ürünlerimiz orijinal ve garantili</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 text-center">
+            <div class="feature-card p-4 h-100">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-headset fa-3x text-accent"></i>
+                </div>
+                <h5 class="fw-bold">7/24 Destek</h5>
+                <p class="text-muted">Teknik destek ekibimiz her zaman yanınızda</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 text-center">
+            <div class="feature-card p-4 h-100">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-medal fa-3x text-primary"></i>
+                </div>
+                <h5 class="fw-bold">Güvenilir Hizmet</h5>
+                <p class="text-muted">Binlerce müşterinin güvenini kazandık</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,174 @@
+﻿@{
+    ViewData["Title"] = "Admin Anasayfa";// degistirilebilir dinamik...
+}
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">Primary Card</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">Warning Card</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">Success Card</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">Danger Card</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                Area Chart Example
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Bar Chart Example
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Ürünler
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Ürün Id</th>
+                    <th>Ürün Adı</th>
+                    <th>Resim</th>
+                    <th>Marka</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Fiyat</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Ürün Id</th>
+                    <th>Ürün Adı</th>
+                    <th>Resim</th>
+                    <th>Marka</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Fiyat</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in ViewBag.Products)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Image</td>
+                        <td>@item.Brand</td>
+                        <td>@item.CreateDate</td>
+                        <td>@item.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="/admin/assets/demo/chart-area-demo.js"></script>
+    <script src="/admin/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    columns: [
+                        { select: 0, sortable: true },   // Ürün Id - sıralanabilir
+                        { select: 1, sortable: false },  // Ürün Adı - sıralanamaz
+                        { select: 2, sortable: false },  // Resim - sıralanamaz
+                        { select: 3, sortable: false },  // Marka - sıralanamaz
+                        { select: 4, sortable: true },   // Kayıt Tarihi - sıralanabilir
+                        { select: 5, sortable: true }    // Fiyat - sıralanabilir
+                    ]
+                });
+            }
+        });
+    </script>
+    <style>
+        /* Sıralama ok işaretlerini özelleştir */
+        .datatable-wrapper .datatable-top .datatable-sorter::before,
+        .datatable-wrapper .datatable-top .datatable-sorter::after {
+            content: '';
+            position: absolute;
+            right: 8px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter::before {
+            top: 8px;
+            border-bottom: 4px solid #6c757d;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter::after {
+            bottom: 8px;
+            border-top: 4px solid #6c757d;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter.asc::before {
+            border-bottom-color: #007bff;
+        }
+        
+        .datatable-wrapper .datatable-top .datatable-sorter.desc::after {
+            border-top-color: #007bff;
+        }
+        
+        /* Sıralanamaz sütunlarda ok işaretlerini gizle */
+        .datatable-wrapper .datatable-top .datatable-sorter:not(.sortable)::before,
+        .datatable-wrapper .datatable-top .datatable-sorter:not(.sortable)::after {
+            display: none;
+        }
+        
+        /* Sıralanabilir sütunlarda hover efekti */
+        .datatable-wrapper .datatable-top .datatable-sorter:hover::before,
+        .datatable-wrapper .datatable-top .datatable-sorter:hover::after {
+            opacity: 0.7;
+        }
+    </style>
+}

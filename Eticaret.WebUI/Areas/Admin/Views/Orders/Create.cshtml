@@ -1,0 +1,147 @@
+﻿@model Eticaret.Core.Entities.Order
+
+@{
+    ViewData["Title"] = "Yeni Sipariş Oluştur";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">
+                    <i class="fas fa-plus text-success me-2"></i>
+                    Yeni Sipariş Oluştur
+                </h2>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Sipariş Bilgilerini Girin
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="OrderNumber" class="form-control" placeholder="Sipariş Numarası" />
+                                    <label asp-for="OrderNumber" class="form-label">
+                                        <i class="fas fa-hashtag me-2"></i>Sipariş Numarası
+                                    </label>
+                                    <span asp-validation-for="OrderNumber" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="TotalPrice" class="form-control" placeholder="Toplam Tutar" type="number" step="0.01" />
+                                    <label asp-for="TotalPrice" class="form-label">
+                                        <i class="fas fa-money-bill me-2"></i>Toplam Tutar
+                                    </label>
+                                    <span asp-validation-for="TotalPrice" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="AppUserId" class="form-control" placeholder="Müşteri ID" type="number" />
+                                    <label asp-for="AppUserId" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Müşteri ID
+                                    </label>
+                                    <span asp-validation-for="AppUserId" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="CustomerId" class="form-control" placeholder="Müşteri" />
+                                    <label asp-for="CustomerId" class="form-label">
+                                        <i class="fas fa-user-tag me-2"></i>Müşteri
+                                    </label>
+                                    <span asp-validation-for="CustomerId" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea asp-for="BillingAddress" class="form-control" placeholder="Fatura Adresi" style="height: 100px"></textarea>
+                                <label asp-for="BillingAddress" class="form-label">
+                                    <i class="fas fa-file-invoice me-2"></i>Fatura Adresi
+                                </label>
+                                <span asp-validation-for="BillingAddress" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea asp-for="DeliveryAddress" class="form-control" placeholder="Teslimat Adresi" style="height: 100px"></textarea>
+                                <label asp-for="DeliveryAddress" class="form-label">
+                                    <i class="fas fa-truck me-2"></i>Teslimat Adresi
+                                </label>
+                                <span asp-validation-for="DeliveryAddress" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input asp-for="OrderDate" class="form-control" placeholder="Sipariş Tarihi" type="datetime-local" />
+                                <label asp-for="OrderDate" class="form-label">
+                                    <i class="fas fa-calendar me-2"></i>Sipariş Tarihi
+                                </label>
+                                <span asp-validation-for="OrderDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times me-2"></i>İptal
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Siparişi Oluştur
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+    }
+    
+    .btn {
+        border-radius: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .alert {
+        border-radius: 0.5rem;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Ödeme";
+}
+
+<h2>Ödeme</h2>
+
+@if (ViewBag.CheckoutFormContent != null)
+{
+    <!-- Iyzipay iframe -->
+    <div class="iyzipay-checkout-form-container">
+        @Html.Raw(ViewBag.CheckoutFormContent)
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-2">
+        @TempData["ErrorMessage"]
+    </div>
+}
+else
+{
+    <p>Ödeme formu yükleniyor...</p>
+}

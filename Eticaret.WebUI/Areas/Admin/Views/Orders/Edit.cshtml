@@ -1,0 +1,178 @@
+﻿@model Eticaret.Core.Entities.Order
+@using Eticaret.Core.Entities
+@using Eticaret.Core.Helpers
+
+@{
+    ViewData["Title"] = "Sipariş Düzenle";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">
+                    <i class="fas fa-edit text-warning me-2"></i>
+                    Sipariş Düzenle
+                </h2>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Sipariş Bilgilerini Düzenle
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" placeholder="Sipariş Numarası" value="@Model.OrderNumber" disabled/>
+                                    <label class="form-label">
+                                        <i class="fas fa-hashtag me-2"></i>Sipariş Numarası
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" placeholder="Toplam Tutar" value="@Model.TotalPrice.ToString("c")" disabled/>
+                                    <label class="form-label">
+                                        <i class="fas fa-money-bill me-2"></i>Toplam Tutar
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" placeholder="Müşteri ID" value="@Model.AppUserId" disabled/>
+                                    <label class="form-label">
+                                        <i class="fas fa-user me-2"></i>Müşteri ID
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select name="orderState" class="form-select">
+                                        @foreach (EnumOrderState state in Enum.GetValues(typeof(EnumOrderState)))
+                                        {
+                                            var selected = Model.OrderState == state ? "selected" : "";
+                                            <option value="@state" selected="@selected">
+                                                @state.GetDisplayName()
+                                            </option>
+                                        }
+                                    </select>
+                                    <label class="form-label">
+                                        <i class="fas fa-tasks me-2"></i>Sipariş Durumu
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.AppUser != null)
+                        {
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info" role="alert">
+                                        <h6 class="alert-heading mb-2">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Mevcut Müşteri Bilgileri
+                                        </h6>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>İsim Soyisim:</strong> @Model.AppUser.Name @Model.AppUser.Surname
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Email:</strong> @Model.AppUser.Email
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Telefon:</strong> @Model.AppUser.Phone
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea asp-for="BillingAddress" class="form-control" placeholder="Fatura Adresi" style="height: 100px"></textarea>
+                                <label asp-for="BillingAddress" class="form-label">
+                                    <i class="fas fa-file-invoice me-2"></i>Fatura Adresi
+                                </label>
+                                <span asp-validation-for="BillingAddress" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea asp-for="DeliveryAddress" class="form-control" placeholder="Teslimat Adresi" style="height: 100px"></textarea>
+                                <label asp-for="DeliveryAddress" class="form-label">
+                                    <i class="fas fa-truck me-2"></i>Teslimat Adresi
+                                </label>
+                                <span asp-validation-for="DeliveryAddress" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input class="form-control" placeholder="Sipariş Tarihi" value="@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")" disabled/>
+                                <label class="form-label">
+                                    <i class="fas fa-calendar me-2"></i>Sipariş Tarihi (Değiştirilemez)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times me-2"></i>İptal
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+    
+    .btn {
+        border-radius: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .alert {
+        border-radius: 0.5rem;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

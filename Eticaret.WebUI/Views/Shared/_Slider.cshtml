@@ -1,0 +1,66 @@
+@model IEnumerable<Slider>
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel"> 
+    @* slider otomatik hareket etmesi icin data-bs-ride="carousel" *@
+    <div class="carousel-indicators">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" 
+                    class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" 
+                    aria-label="Slide @(i + 1)"></button>
+        }
+    </div>
+    <div class="carousel-inner">
+    @foreach (var item in Model)
+    {
+        <div class="carousel-item @(item == Model.FirstOrDefault() ? "active" : "")">
+            @if (!string.IsNullOrEmpty(item.Link))
+            {
+                <a href="@item.Link" target="_blank" class="slider-link">
+                    <img src="/Img/Sliders/@item.Image" class="d-block w-100" alt="@item.Title">
+                </a>
+            }
+            else
+            {
+                <img src="/Img/Sliders/@item.Image" class="d-block w-100" alt="@item.Title">
+            }
+            <div class="carousel-caption d-none d-md-block">
+                <h5>@item.Title</h5>
+                <p>@item.Description</p>
+                @if (!string.IsNullOrEmpty(item.Link))
+                {
+                    <small class="text-light opacity-75">
+                        <i class="fas fa-external-link-alt me-1"></i>
+                        Tıklayarak detayları görüntüleyin
+                    </small>
+                }
+            </div>
+        </div>
+    }
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<style>
+    .slider-link {
+        display: block;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .slider-link:hover {
+        opacity: 0.9;
+    }
+    
+    .slider-link img {
+        cursor: pointer;
+    }
+</style>

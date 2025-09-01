@@ -1,0 +1,31 @@
+.cart-item:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.cart-item:last-child {
+    border-bottom: none !important;
+}
+
+.btn-outline-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sticky-top {
+    z-index: 1020;
+}
+
+@media (max-width: 768px) {
+    .cart-item {
+        padding: 1rem !important;
+    }
+    
+    .cart-item .row > div {
+        margin-bottom: 0.5rem;
+    }
+    
+    .cart-item .row > div:last-child {
+        margin-bottom: 0;
+    }
+}
