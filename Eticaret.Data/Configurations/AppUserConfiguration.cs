@@ -22,12 +22,12 @@ namespace Eticaret.Data.Configurations
             {
                 Id = 1,
                 UserName = "Admin",
-                Email = "ilyas@gmail.com",
+                Email = "admin@cnrticaret.com",
                 IsActive = true,
                 IsAdmin = true,
                 Name = "Ilyas",
                 Surname = "Turanli",
-                Password = PasswordHelper.HashPassword("deneme123"),
+                Password = PasswordHelper.HashPassword("Canlicnrticaretsifre1357"),
                 
             });
 
